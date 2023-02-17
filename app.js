@@ -23,8 +23,8 @@ const start = async () =>{
                 const page = await browser.newPage()
                 await page.goto(process.env.SOURCE, {timeout: 0, waitUntil: 'load'})
 
-                const status = source.status()
-                console.log("Status", status)
+                // const status = source.status()
+                // console.log("Status", status)
                 // await page.waitForSelector('[data-test="instrument-price-last"]'     , {timeout: 0})
                 // await page.setDefaultNavigationTimeout(0); 
                 let price = await page.evaluate(()=>{
