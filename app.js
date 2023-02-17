@@ -20,7 +20,9 @@ const start = async () =>{
         async function FETCH(){
             try{
                 const browser = await puppeteer.launch({
-                    headless: false
+                    headless: true,
+                    ignoreDefaultArgs: ['--disable-extensions'],
+                    args: ['--use-gl=egl', '--no-sandbox', '--disable-setuid-sandbox']
                 })
                 
                 const page = await browser.newPage()
