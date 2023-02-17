@@ -30,6 +30,7 @@ const start = async () =>{
                     return document.querySelector('[data-test="instrument-price-last"]').textContent.replace(/[,]/g, "");
                 })
                 price = Number.parseInt(price)
+
                 if(prevPrice[0] - price >= 1) {
                     const users = await User.find({isTrackingActive: true})
                     console.log('price went down')
@@ -48,13 +49,14 @@ const start = async () =>{
                         })
                     })
                 }
+                console.log('prev', prevPrice[0], 'current', price)
                 prevPrice.push(price)
                 browser.close();
             }catch(err){
                 console.log(err)
             }
         }
-        FETCH()
+        cron.schedule('*/10 * * * * *', FETCH)
     }catch(err){
         console.log(err)
     }
