@@ -38,7 +38,7 @@ const start = async () =>{
                 price = Number.parseInt(price)
 
                 const {prevPrice} = await Price.findOne({name: 'BTC'})
-                
+
                 if(prevPrice - price >= 1 || price < 20000) {
                     const users = await User.find({isTrackingActive: true})
                     console.log('price went down')
@@ -65,7 +65,7 @@ const start = async () =>{
                 console.log(err)
             }
         }
-        // cron.schedule('*/5 * * * * *', FETCH)
+        cron.schedule('*/1 * * * *', FETCH) // this is the core of all issues
         FETCH()
     }catch(err){
         console.log(err)
