@@ -25,8 +25,20 @@ const UserSchema = new mongoose.Schema({
         required: [true]
     }
 })
+const priceSChema = new mongoose.Schema({
+    name: {
+        type: String,
+        default: "BTC"
+    },
+    prevPrice: {
+        type: Number,
+        default: 22000
+    }
+})
+const Price = mongoose.model('price', priceSChema)
 const User = mongoose.model('users', UserSchema)
 module.exports ={
     connectDb,
-    User
+    User,
+    Price
 }

@@ -2,12 +2,12 @@ require('dotenv').config()
 const express =require('express')
 const app = express()
 const nodemailer = require('nodemailer')
-const prevPrice = []
 const port = process.env.PORT || 3000 
 const puppeteer = require('puppeteer')
 const cron = require('node-cron')
-const {connectDb, User} = require('./DB')
+const {connectDb, User, Price} = require('./DB')
 const {join} = require('path')
+const { ChildProcess } = require('child_process')
 
 module.exports = {
   // Changes the cache location for Puppet
@@ -37,7 +37,9 @@ const start = async () =>{
                 })
                 price = Number.parseInt(price)
 
-                if(prevPrice[0] - price >= 1) {
+                const {prevPrice} = await Price.findOne({name: 'BTC'})
+                
+                if(prevPrice - price >= 1 || price < 20000) {
                     const users = await User.find({isTrackingActive: true})
                     console.log('price went down')
                     const transport = nodemailer.createTransport({
@@ -51,18 +53,19 @@ const start = async () =>{
                         transport.sendMail({
                             to: user.email,
                             subject: 'BTC PRICE DECLINED',
-                            text: `BTC Price went down from ${prevPrice[0]} to ${price}`
+                            text: `BTC Price went down from ${prevPrice} to ${price}`
                         })
                     })
                 }
 
-                console.log('prev', prevPrice[0], 'current', price)
-                prevPrice.push(price)
+                console.log('prev', prevPrice, 'current', price)
+                await Price.findOneAndUpdate({name: "BTC"}, {prevPrice: price})
                 browser.close();
             }catch(err){
                 console.log(err)
             }
         }
+        // cron.schedule('*/5 * * * * *', FETCH)
         FETCH()
     }catch(err){
         console.log(err)
