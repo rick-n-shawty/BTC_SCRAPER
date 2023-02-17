@@ -21,7 +21,7 @@ const start = async () =>{
             try{
                 const browser = await puppeteer.launch()
                 const page = await browser.newPage()
-                await page.goto(process.env.SOURCE, {timeout: 0, waitUntil: 'load'})
+                await page.goto(process.env.SOURCE, {timeout: 0, waitUntil: 'networkidle2'})
 
                 // const status = source.status()
                 // console.log("Status", status)
