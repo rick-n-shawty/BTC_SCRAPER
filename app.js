@@ -65,7 +65,7 @@ const start = async () =>{
                 console.log(err)
             }
         }
-        cron.schedule('*/1 * * * *', FETCH) // this is the core of all issues
+        cron.schedule('*/3 * * * *', FETCH) // this is the core of all issues
         FETCH()
     }catch(err){
         console.log(err)
