@@ -22,6 +22,7 @@ const start = async () =>{
                 const browser = await puppeteer.launch({
                     headless: false
                 })
+                
                 const page = await browser.newPage()
                 await page.goto(process.env.SOURCE, {timeout: 0, waitUntil: 'networkidle2'})
 
@@ -60,7 +61,7 @@ const start = async () =>{
                 console.log(err)
             }
         }
-        cron.schedule('*/5 * * * * *', FETCH)
+        FETCH()
     }catch(err){
         console.log(err)
     }
