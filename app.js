@@ -19,7 +19,9 @@ const start = async () =>{
         console.log('connected')
         async function FETCH(){
             try{
-                const browser = await puppeteer.launch()
+                const browser = await puppeteer.launch({
+                    headless: false
+                })
                 const page = await browser.newPage()
                 await page.goto(process.env.SOURCE, {timeout: 0, waitUntil: 'networkidle2'})
 
