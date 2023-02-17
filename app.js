@@ -21,7 +21,7 @@ const start = async () =>{
             try{
                 const browser = await puppeteer.launch()
                 const page = await browser.newPage()
-                const source = await page.goto(process.env.SOURCE, {timeout: 60000, waitUntil: 'load'})
+                const source = await page.goto(process.env.SOURCE, {timeout: 0, waitUntil: 'load'})
                 const status = source.status()
                 console.log("Status", status)
                 await page.waitForSelector('[data-test="instrument-price-last"]', {timeout: 0})
