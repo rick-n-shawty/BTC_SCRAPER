@@ -21,11 +21,12 @@ const start = async () =>{
             try{
                 const browser = await puppeteer.launch()
                 const page = await browser.newPage()
-                const source = await page.goto(process.env.SOURCE, {timeout: 0, waitUntil: 'load'})
+                await page.goto(process.env.SOURCE, {timeout: 0, waitUntil: 'load'})
+
                 const status = source.status()
                 console.log("Status", status)
-                await page.waitForSelector('[data-test="instrument-price-last"]', {timeout: 0})
-                await page.setDefaultNavigationTimeout(0); 
+                // await page.waitForSelector('[data-test="instrument-price-last"]'     , {timeout: 0})
+                // await page.setDefaultNavigationTimeout(0); 
                 let price = await page.evaluate(()=>{
                     return document.querySelector('[data-test="instrument-price-last"]').textContent.replace(/[,]/g, "");
                 })
@@ -49,6 +50,7 @@ const start = async () =>{
                         })
                     })
                 }
+
                 console.log('prev', prevPrice[0], 'current', price)
                 prevPrice.push(price)
                 browser.close();
@@ -56,7 +58,7 @@ const start = async () =>{
                 console.log(err)
             }
         }
-        cron.schedule('*/10 * * * * *', FETCH)
+        cron.schedule('*/5 * * * * *', FETCH)
     }catch(err){
         console.log(err)
     }
