@@ -10,7 +10,7 @@ const {connectDb, User} = require('./DB')
 const {join} = require('path')
 
 module.exports = {
-  // Changes the cache location for Puppeteer.
+  // Changes the cache location for Puppet
   cacheDirectory: join(__dirname, '.cache', 'puppeteer'),
 };
 const start = async () =>{
